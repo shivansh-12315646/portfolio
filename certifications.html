@@ -129,17 +129,24 @@
         const filtered = filter === 'all' ? certs : certs.filter(c => c.issuer === filter);
         grid.innerHTML = filtered.map(c => {
           const hasImg = c.image && c.image.length > 10;
+          const isPdf = c.image && c.image.toLowerCase().endsWith('.pdf');
+          
           return `
           <div class="cert-card-visual" data-id="${c.id}" data-issuer="${c.issuer}">
-            <div class="cert-img-wrap" onclick="openLightbox('${c.id}')">
-              ${hasImg
-                ? `<img src="${c.image}" alt="${c.title}" class="cert-thumb">`
-                : `<div class="cert-img-placeholder">
-                    <i class="fas fa-certificate"></i>
-                    <span>${c.badge}</span>
-                   </div>`}
+            <div class="cert-img-wrap" onclick="${isPdf ? `window.open('${c.image}', '_blank')` : `openLightbox('${c.id}')`}">
+              ${isPdf 
+                ? `<div class="cert-img-placeholder" style="background: linear-gradient(135deg, #ff5f6d, #ffc371); color: white;">
+                    <i class="fas fa-file-pdf" style="font-size: 2.5rem; margin-bottom: 10px;"></i>
+                    <span style="font-weight: 700; letter-spacing: 1px;">VIEW PDF</span>
+                   </div>`
+                : hasImg
+                  ? `<img src="${c.image}" alt="${c.title}" class="cert-thumb">`
+                  : `<div class="cert-img-placeholder">
+                      <i class="fas fa-certificate"></i>
+                      <span>${c.badge}</span>
+                     </div>`}
               <div class="cert-img-overlay">
-                <i class="fas fa-search-plus"></i> View
+                <i class="fas fa-${isPdf ? 'external-link-alt' : 'search-plus'}"></i> ${isPdf ? 'Open PDF' : 'View'}
               </div>
             </div>
             <div class="cert-body">
@@ -150,8 +157,8 @@
                 <span class="cert-date-visual"><i class="far fa-calendar"></i> ${c.date}</span>
               </div>
               <div class="cert-actions">
-                <button class="btn-view-cert" onclick="openLightbox('${c.id}')">
-                  <i class="fas fa-eye"></i> View Certificate
+                <button class="btn-view-cert" onclick="${isPdf ? `window.open('${c.image}', '_blank')` : `openLightbox('${c.id}')`}">
+                  <i class="fas fa-${isPdf ? 'external-link-alt' : 'eye'}"></i> ${isPdf ? 'Open PDF' : 'View Certificate'}
                 </button>
                 ${c.link ? `<a href="${c.link}" target="_blank" class="btn-ext-cert">
                   <i class="fas fa-external-link-alt"></i>

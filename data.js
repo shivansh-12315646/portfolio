@@ -177,7 +177,7 @@ const PORTFOLIO_DEFAULTS = {
       date: "Aug 2025",
       badge: "AI",
       image: "./images/cert_gen_ai.pdf",
-      link: ""
+      link: "./images/cert_gen_ai.pdf"
     },
     {
       id: "cert3",
@@ -186,7 +186,7 @@ const PORTFOLIO_DEFAULTS = {
       date: "Aug 2025",
       badge: "CS",
       image: "./images/cert_theory.pdf",
-      link: ""
+      link: "./images/cert_theory.pdf"
     },
     {
       id: "cert4",
@@ -195,7 +195,7 @@ const PORTFOLIO_DEFAULTS = {
       date: "Sep 2024",
       badge: "NET",
       image: "./images/cert_network_fund.pdf",
-      link: ""
+      link: "./images/cert_network_fund.pdf"
     },
     {
       id: "cert5",
@@ -204,7 +204,7 @@ const PORTFOLIO_DEFAULTS = {
       date: "Sep 2024",
       badge: "NET",
       image: "./images/cert_networking_bits.pdf",
-      link: ""
+      link: "./images/cert_networking_bits.pdf"
     },
     {
       id: "cert6",
@@ -213,7 +213,7 @@ const PORTFOLIO_DEFAULTS = {
       date: "Sep 2024",
       badge: "NET",
       image: "./images/cert_packet_switching.pdf",
-      link: ""
+      link: "./images/cert_packet_switching.pdf"
     },
     {
       id: "cert7",
@@ -222,7 +222,7 @@ const PORTFOLIO_DEFAULTS = {
       date: "Sep 2024",
       badge: "NET",
       image: "./images/cert_tcp_ip.pdf",
-      link: ""
+      link: "./images/cert_tcp_ip.pdf"
     },
     {
       id: "cert10",
@@ -231,7 +231,7 @@ const PORTFOLIO_DEFAULTS = {
       date: "Sep 2024",
       badge: "NET",
       image: "./images/cert_p2p_protocols.pdf",
-      link: ""
+      link: "./images/cert_p2p_protocols.pdf"
     },
     {
       id: "cert9",
@@ -240,7 +240,7 @@ const PORTFOLIO_DEFAULTS = {
       date: "2024",
       badge: "JAVA",
       image: "./images/cert_java_neocolab.pdf",
-      link: ""
+      link: "./images/cert_java_neocolab.pdf"
     }
   ],
 
