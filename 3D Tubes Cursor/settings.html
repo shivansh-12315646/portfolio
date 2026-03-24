@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings | Shivansh Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body class="no-splash admin-body">
+
+  <!-- Debug Console Overlay -->
+  <div class="debug-console" id="debugConsole">
+    <div class="debug-header">
+      <span><i class="fas fa-bug"></i> Debug Console</span>
+      <button onclick="document.getElementById('debugConsole').classList.toggle('minimized')"><i class="fas fa-minus"></i></button>
+    </div>
+    <div class="debug-body" id="debugBody">
+      <div class="debug-section">
+        <h4>LocalStorage Keys</h4>
+        <div id="debugLsKeys" class="debug-ls"></div>
+      </div>
+      <div class="debug-section">
+        <h4>Console Errors</h4>
+        <div id="debugErrors" class="debug-errors"><p class="debug-ok">No errors captured.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings container -->
+  <div class="settings-page">
+
+    <!-- Topbar -->
+    <header class="settings-topbar">
+      <a href="index.html" class="settings-back"><i class="fas fa-arrow-left"></i> Portfolio</a>
+      <h1><i class="fas fa-cog"></i> Settings</h1>
+      <a href="admin-dashboard.html" class="settings-back"><i class="fas fa-shield-alt"></i> Admin</a>
+    </header>
+
+    <div class="settings-grid">
+
+      <!-- ── Profile Update ── -->
+      <div class="settings-card">
+        <div class="settings-card-header">
+          <i class="fas fa-user-circle"></i>
+          <h3>Profile Update</h3>
+        </div>
+        <div class="profile-upload-area">
+          <div class="profile-preview-wrap small">
+            <img id="settingsAvatar" src="./photo.jpg" alt="Profile">
+          </div>
+          <div>
+            <label class="btn-upload-img small">
+              <i class="fas fa-camera"></i> Change Photo
+              <input type="file" id="settingsPhotoInput" accept="image/*" style="display:none">
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Display Name</label>
+          <input type="text" id="settingsName" placeholder="Your Name">
+        </div>
+        <div class="form-group">
+          <label>Short Bio</label>
+          <textarea id="settingsBio" rows="2" placeholder="Brief bio..."></textarea>
+        </div>
+        <button class="btn-save" onclick="saveProfileSettings()"><i class="fas fa-save"></i> Save Profile</button>
+      </div>
+
+      <!-- ── Appearance ── -->
+      <div class="settings-card">
+        <div class="settings-card-header">
+          <i class="fas fa-palette"></i>
+          <h3>Appearance</h3>
+        </div>
+        <div class="settings-toggle-row">
+          <div>
+            <p class="toggle-label">Dark Mode</p>
+            <p class="toggle-desc">Toggle between dark and light theme</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="themeSwitch">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- ── Debug Mode ── -->
+      <div class="settings-card">
+        <div class="settings-card-header">
+          <i class="fas fa-bug"></i>
+          <h3>Debug Mode</h3>
+        </div>
+        <p class="settings-desc">Enable the floating debug console to inspect localStorage values and JavaScript errors in real-time. Useful for troubleshooting portfolio issues.</p>
+        <div class="settings-toggle-row">
+          <div>
+            <p class="toggle-label">Debug Console</p>
+            <p class="toggle-desc">Show/hide the debug overlay</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="debugSwitch">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <button class="btn-secondary-action" onclick="refreshDebugView()" style="margin-top:12px;">
+          <i class="fas fa-sync"></i> Refresh Debug Data
+        </button>
+      </div>
+
+      <!-- ── Security ── -->
+      <div class="settings-card">
+        <div class="settings-card-header">
+          <i class="fas fa-lock"></i>
+          <h3>Change Admin Password</h3>
+        </div>
+        <div class="form-group">
+          <label>Current Password</label>
+          <input type="password" id="currPass" placeholder="••••••">
+        </div>
+        <div class="form-group">
+          <label>New Password</label>
+          <input type="password" id="newPass" placeholder="••••••">
+        </div>
+        <div class="form-group">
+          <label>Confirm New Password</label>
+          <input type="password" id="confirmPass" placeholder="••••••">
+        </div>
+        <button class="btn-save" onclick="changePassword()"><i class="fas fa-key"></i> Update Password</button>
+      </div>
+
+      <!-- ── Reset ── -->
+      <div class="settings-card danger-card">
+        <div class="settings-card-header">
+          <i class="fas fa-exclamation-triangle"></i>
+          <h3>Reset Portfolio Data</h3>
+        </div>
+        <p class="settings-desc danger-desc">This will remove all custom data from localStorage and restore the original built-in defaults. <strong>This action cannot be undone.</strong></p>
+        <button class="btn-danger" onclick="confirmReset()">
+          <i class="fas fa-trash-alt"></i> Reset All Data
+        </button>
+      </div>
+
+    </div><!-- /settings-grid -->
+
+    <!-- Toast -->
+    <div class="admin-toast" id="settingsToast"></div>
+
+  </div><!-- /settings-page -->
+
+  <script src="./data.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const about = getPortfolioData('about');
+
+      // Load current values
+      document.getElementById('settingsName').value = about.name;
+      document.getElementById('settingsBio').value = about.bio;
+      document.getElementById('settingsAvatar').src = about.avatar;
+
+      // Theme switch
+      const isDark = localStorage.getItem('theme') !== 'light';
+      const themeSwitch = document.getElementById('themeSwitch');
+      themeSwitch.checked = isDark;
+      if (!isDark) document.body.classList.add('light-mode');
+      themeSwitch.addEventListener('change', () => {
+        document.body.classList.toggle('light-mode', !themeSwitch.checked);
+        localStorage.setItem('theme', themeSwitch.checked ? 'dark' : 'light');
+      });
+
+      // Debug switch
+      const debugSwitch = document.getElementById('debugSwitch');
+      const debugEnabled = localStorage.getItem('debug_mode') === 'true';
+      debugSwitch.checked = debugEnabled;
+      const dc = document.getElementById('debugConsole');
+      dc.style.display = debugEnabled ? 'flex' : 'none';
+      refreshDebugView();
+
+      debugSwitch.addEventListener('change', () => {
+        const enabled = debugSwitch.checked;
+        localStorage.setItem('debug_mode', enabled);
+        dc.style.display = enabled ? 'flex' : 'none';
+        refreshDebugView();
+      });
+
+      // Profile photo
+      document.getElementById('settingsPhotoInput').addEventListener('change', function() {
+        if (!this.files[0]) return;
+        const reader = new FileReader();
+        reader.onload = e => { document.getElementById('settingsAvatar').src = e.target.result; };
+        reader.readAsDataURL(this.files[0]);
+      });
+    });
+
+    function toast(msg, type = 'success') {
+      const t = document.getElementById('settingsToast');
+      t.textContent = msg;
+      t.className = 'admin-toast show ' + type;
+      clearTimeout(t._t);
+      t._t = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function saveProfileSettings() {
+      const d = getPortfolioData('about');
+      const img = document.getElementById('settingsAvatar').src;
+      d.name = document.getElementById('settingsName').value.trim() || d.name;
+      d.bio = document.getElementById('settingsBio').value.trim() || d.bio;
+      if (img && img.startsWith('data:')) d.avatar = img;
+      setPortfolioData('about', d);
+      toast('Profile updated!');
+    }
+
+    function changePassword() {
+      const admin = getPortfolioData('admin');
+      const curr = document.getElementById('currPass').value;
+      const nw = document.getElementById('newPass').value;
+      const conf = document.getElementById('confirmPass').value;
+      if (curr !== admin.password) { toast('Current password is incorrect.', 'error'); return; }
+      if (nw.length < 6) { toast('New password must be at least 6 characters.', 'error'); return; }
+      if (nw !== conf) { toast('Passwords do not match.', 'error'); return; }
+      admin.password = nw;
+      setPortfolioData('admin', admin);
+      document.getElementById('currPass').value = '';
+      document.getElementById('newPass').value = '';
+      document.getElementById('confirmPass').value = '';
+      toast('Password changed successfully!');
+    }
+
+    function confirmReset() {
+      if (confirm('Are you sure you want to reset ALL portfolio data to defaults? This cannot be undone.')) {
+        resetAllPortfolioData();
+        toast('All data reset to defaults.', 'error');
+        setTimeout(() => location.reload(), 1200);
+      }
+    }
+
+    function refreshDebugView() {
+      const lsDiv = document.getElementById('debugLsKeys');
+      const keys = Object.keys(localStorage).filter(k => k.startsWith('portfolio_') || k === 'theme' || k === 'debug_mode');
+      if (keys.length === 0) {
+        lsDiv.innerHTML = '<p class="debug-ok">No portfolio keys found (using defaults).</p>';
+        return;
+      }
+      lsDiv.innerHTML = keys.map(k => {
+        let val = localStorage.getItem(k);
+        try { val = JSON.stringify(JSON.parse(val), null, 2); } catch(e) {}
+        return `<details class="debug-key"><summary>${k}</summary><pre>${val}</pre></details>`;
+      }).join('');
+    }
+
+    // Capture console errors for debug view
+    window.addEventListener('error', evt => {
+      const el = document.getElementById('debugErrors');
+      if (el) el.innerHTML += `<p class="debug-err"><i class="fas fa-times-circle"></i> ${evt.message} <small>(${evt.filename}:${evt.lineno})</small></p>`;
+    });
+  </script>
+</body>
+</html>

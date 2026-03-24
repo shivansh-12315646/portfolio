@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shivansh Sharma | Achievements</title>
+  <meta name="description" content="Achievements, patents and research papers of Shivansh Sharma — AI Enthusiast, CSE student at LPU.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body class="no-splash">
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <img src="./photo.jpg" alt="Shivansh" class="nav-avatar" id="navAvatar" onerror="this.style.display='none'">
+      <span id="navName">Shivansh</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html#home" class="nav-link">Home</a></li>
+      <li><a href="index.html#about" class="nav-link">About</a></li>
+      <li><a href="index.html#education" class="nav-link">Education</a></li>
+      <li><a href="index.html#projects" class="nav-link">Projects</a></li>
+      <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+      <li><a href="achievements.html" class="nav-link active">Achievements</a></li>
+      <li><a href="certifications.html" class="nav-link">Certification</a></li>
+      <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme"><i class="fas fa-moon"></i></button>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="section-label center">WHAT I'VE DONE</div>
+      <h1 class="page-hero-title">My <span class="accent">Achievements</span></h1>
+      <p class="page-hero-sub">A journey of milestones, discoveries, and breakthroughs.</p>
+    </div>
+  </div>
+
+  <!-- ========== ACHIEVEMENTS ========== -->
+  <section id="achievements" class="section">
+    <div class="container">
+      <div class="section-label center">ACCOMPLISHMENTS</div>
+      <h2 class="section-title center">Awards &amp; <span class="accent">Milestones</span></h2>
+      <div class="achieve-grid" id="achieveGrid">
+        <!-- Dynamically populated from data.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PATENTS ========== -->
+  <section id="patents" class="section alt-bg">
+    <div class="container">
+      <div class="section-label center">INTELLECTUAL PROPERTY</div>
+      <h2 class="section-title center">Patents &amp; <span class="accent">Inventions</span></h2>
+      <div class="patent-grid" id="patentGrid">
+        <!-- Dynamically populated from data.js -->
+      </div>
+      <div id="patentEmpty" class="empty-section-msg" style="display:none;">
+        <i class="fas fa-lightbulb"></i>
+        <p>No patents filed yet — <a href="admin.html">add one via Admin</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== RESEARCH PAPERS ========== -->
+  <section id="research" class="section">
+    <div class="container">
+      <div class="section-label center">PUBLICATIONS</div>
+      <h2 class="section-title center">Research <span class="accent">Papers</span></h2>
+      <div class="research-grid" id="researchGrid">
+        <!-- Dynamically populated from data.js -->
+      </div>
+      <div id="researchEmpty" class="empty-section-msg" style="display:none;">
+        <i class="fas fa-scroll"></i>
+        <p>No research papers published yet — <a href="admin.html">add one via Admin</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTACT ========== -->
+  <section id="contact" class="section alt-bg">
+    <div class="container">
+      <div class="section-label center">GET IN TOUCH</div>
+      <h2 class="section-title center">Contact <span class="accent">Me</span></h2>
+      <p class="contact-sub">I'm always open to discussing AI, tech, collaborations, or just a friendly chat. Feel free to reach out!</p>
+      <div class="contact-grid" id="contactGrid">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <p>© 2025 <strong id="footerName">Shivansh Sharma</strong>. Crafted with <i class="fas fa-heart" style="color:#f967fb"></i> &amp; passion for AI.</p>
+    <div class="footer-socials" id="footerSocials"></div>
+  </footer>
+
+  <button class="scroll-top" id="scrollTop" title="Back to top"><i class="fas fa-chevron-up"></i></button>
+
+  <script src="./data.js"></script>
+  <script>
+    /* ── Bootstrap page with dynamic data ── */
+    document.addEventListener('DOMContentLoaded', () => {
+      const about = getPortfolioData('about');
+      const achievements = getPortfolioData('achievements');
+      const patents = getPortfolioData('patents');
+      const research = getPortfolioData('research');
+
+      // Nav / footer
+      document.getElementById('navName').textContent = about.name.split(' ')[0];
+      document.getElementById('navAvatar').src = about.avatar;
+      document.getElementById('footerName').textContent = about.name;
+
+      // Footer socials
+      document.getElementById('footerSocials').innerHTML = `
+        <a href="mailto:${about.email}"><i class="fas fa-envelope"></i></a>
+        <a href="${about.linkedin}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a href="${about.github}" target="_blank"><i class="fab fa-github"></i></a>`;
+
+      // Contact grid
+      document.getElementById('contactGrid').innerHTML = `
+        <div class="contact-card"><div class="contact-icon"><i class="fas fa-envelope"></i></div><h4>Email</h4><a href="mailto:${about.email}">${about.email}</a></div>
+        <div class="contact-card"><div class="contact-icon"><i class="fas fa-phone"></i></div><h4>Phone</h4><a href="tel:${about.phone}">${about.phone}</a></div>
+        <div class="contact-card"><div class="contact-icon"><i class="fab fa-linkedin"></i></div><h4>LinkedIn</h4><a href="${about.linkedin}" target="_blank">${about.linkedin.split('/').pop()}</a></div>
+        <div class="contact-card"><div class="contact-icon"><i class="fab fa-github"></i></div><h4>GitHub</h4><a href="${about.github}" target="_blank">${about.github.split('/').pop()}</a></div>`;
+
+      // Achievements
+      const achieveGrid = document.getElementById('achieveGrid');
+      if (achievements && achievements.length > 0) {
+        achieveGrid.innerHTML = achievements.map(a => `
+          <div class="achieve-card">
+            <div class="achieve-icon"><i class="${a.icon}"></i></div>
+            <div class="achieve-body">
+              <span class="achieve-date">${a.date}</span>
+              <h3>${a.title}</h3>
+              <p>${a.description}</p>
+            </div>
+          </div>`).join('');
+      } else {
+        achieveGrid.innerHTML = '<p class="no-data-msg">No achievements yet.</p>';
+      }
+
+      // Patents
+      const patentGrid = document.getElementById('patentGrid');
+      const patentEmpty = document.getElementById('patentEmpty');
+      if (patents && patents.length > 0) {
+        patentEmpty.style.display = 'none';
+        patentGrid.innerHTML = patents.map(p => `
+          <div class="patent-card">
+            <div class="patent-header">
+              <div class="patent-icon"><i class="fas fa-certificate"></i></div>
+              <span class="patent-status ${p.status.toLowerCase()}">${p.status}</span>
+            </div>
+            <h3 class="patent-title">${p.title}</h3>
+            <p class="patent-number"><i class="fas fa-hashtag"></i> ${p.number}</p>
+            <p class="patent-desc">${p.description}</p>
+            <span class="patent-date"><i class="far fa-calendar"></i> ${p.date}</span>
+          </div>`).join('');
+      } else {
+        patentGrid.style.display = 'none';
+        patentEmpty.style.display = 'flex';
+      }
+
+      // Research Papers
+      const researchGrid = document.getElementById('researchGrid');
+      const researchEmpty = document.getElementById('researchEmpty');
+      if (research && research.length > 0) {
+        researchEmpty.style.display = 'none';
+        researchGrid.innerHTML = research.map(r => `
+          <div class="research-card">
+            <div class="research-type"><i class="fas fa-file-alt"></i> Publication</div>
+            <h3 class="research-title">${r.title}</h3>
+            <p class="research-journal"><i class="fas fa-journal-whills"></i> ${r.journal}</p>
+            <p class="research-abstract">${r.abstract}</p>
+            <div class="research-footer">
+              <span class="research-date"><i class="far fa-calendar"></i> ${r.date}</span>
+              ${r.doi ? `<span class="research-doi">DOI: ${r.doi}</span>` : ''}
+              ${r.link ? `<a href="${r.link}" target="_blank" class="btn-read-paper"><i class="fas fa-external-link-alt"></i> Read Paper</a>` : ''}
+            </div>
+          </div>`).join('');
+      } else {
+        researchGrid.style.display = 'none';
+        researchEmpty.style.display = 'flex';
+      }
+
+      // Theme
+      const saved = localStorage.getItem('theme');
+      if (saved === 'light') document.body.classList.add('light-mode');
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+        document.getElementById('themeToggle').innerHTML = document.body.classList.contains('light-mode')
+          ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+      });
+
+      // Scroll-top
+      const scrollTop = document.getElementById('scrollTop');
+      window.addEventListener('scroll', () => {
+        scrollTop.classList.toggle('visible', window.scrollY > 300);
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+      });
+      scrollTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    });
+  </script>
+</body>
+</html>

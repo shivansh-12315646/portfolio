@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shivansh Sharma | Certifications</title>
+  <meta name="description" content="Certifications and credentials of Shivansh Sharma — AI Enthusiast, CSE student at LPU.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body class="no-splash">
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <img src="./photo.jpg" alt="Shivansh" class="nav-avatar" id="navAvatar" onerror="this.style.display='none'">
+      <span id="navName">Shivansh</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html#home" class="nav-link">Home</a></li>
+      <li><a href="index.html#about" class="nav-link">About</a></li>
+      <li><a href="index.html#education" class="nav-link">Education</a></li>
+      <li><a href="index.html#projects" class="nav-link">Projects</a></li>
+      <li><a href="index.html#skills" class="nav-link">Skills</a></li>
+      <li><a href="achievements.html" class="nav-link">Achievements</a></li>
+      <li><a href="certifications.html" class="nav-link active">Certification</a></li>
+      <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme"><i class="fas fa-moon"></i></button>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="section-label center">CREDENTIALS</div>
+      <h1 class="page-hero-title">My <span class="accent">Certifications</span></h1>
+      <p class="page-hero-sub">Verified learning milestones from leading platforms and institutions.</p>
+    </div>
+  </div>
+
+  <!-- ========== CERTIFICATIONS ========== -->
+  <section id="certifications" class="section">
+    <div class="container">
+      <!-- Filter bar -->
+      <div class="cert-filter-bar" id="certFilterBar">
+        <button class="cert-filter-btn active" data-filter="all">All</button>
+      </div>
+
+      <div class="cert-grid-visual" id="certGridVisual">
+        <!-- Dynamically populated from data.js -->
+      </div>
+      <p class="cert-note">* More certifications will be added as earned.</p>
+    </div>
+  </section>
+
+  <!-- ========== LIGHTBOX ========== -->
+  <div class="cert-lightbox" id="certLightbox">
+    <button class="lightbox-close" id="lightboxClose"><i class="fas fa-times"></i></button>
+    <div class="lightbox-inner">
+      <img src="" alt="Certificate" id="lightboxImg">
+      <div class="lightbox-info">
+        <h3 id="lightboxTitle"></h3>
+        <p id="lightboxIssuer"></p>
+        <a id="lightboxLink" href="#" target="_blank" class="btn-primary" style="display:none;">
+          <i class="fas fa-external-link-alt"></i> View Original
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== CONTACT ========== -->
+  <section id="contact" class="section alt-bg">
+    <div class="container">
+      <div class="section-label center">GET IN TOUCH</div>
+      <h2 class="section-title center">Contact <span class="accent">Me</span></h2>
+      <p class="contact-sub">I'm always open to discussing AI, tech, collaborations, or just a friendly chat. Feel free to reach out!</p>
+      <div class="contact-grid" id="contactGrid"></div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <p>© 2025 <strong id="footerName">Shivansh Sharma</strong>. Crafted with <i class="fas fa-heart" style="color:#f967fb"></i> &amp; passion for AI.</p>
+    <div class="footer-socials" id="footerSocials"></div>
+  </footer>
+
+  <button class="scroll-top" id="scrollTop" title="Back to top"><i class="fas fa-chevron-up"></i></button>
+
+  <script src="./data.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const about = getPortfolioData('about');
+      const certs = getPortfolioData('certifications');
+
+      // Nav / footer
+      document.getElementById('navName').textContent = about.name.split(' ')[0];
+      document.getElementById('navAvatar').src = about.avatar;
+      document.getElementById('footerName').textContent = about.name;
+
+      document.getElementById('footerSocials').innerHTML = `
+        <a href="mailto:${about.email}"><i class="fas fa-envelope"></i></a>
+        <a href="${about.linkedin}" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        <a href="${about.github}" target="_blank"><i class="fab fa-github"></i></a>`;
+
+      document.getElementById('contactGrid').innerHTML = `
+        <div class="contact-card"><div class="contact-icon"><i class="fas fa-envelope"></i></div><h4>Email</h4><a href="mailto:${about.email}">${about.email}</a></div>
+        <div class="contact-card"><div class="contact-icon"><i class="fas fa-phone"></i></div><h4>Phone</h4><a href="tel:${about.phone}">${about.phone}</a></div>
+        <div class="contact-card"><div class="contact-icon"><i class="fab fa-linkedin"></i></div><h4>LinkedIn</h4><a href="${about.linkedin}" target="_blank">${about.linkedin.split('/').pop()}</a></div>
+        <div class="contact-card"><div class="contact-icon"><i class="fab fa-github"></i></div><h4>GitHub</h4><a href="${about.github}" target="_blank">${about.github.split('/').pop()}</a></div>`;
+
+      // Build unique issuer filters
+      const issuers = [...new Set(certs.map(c => c.issuer))];
+      const filterBar = document.getElementById('certFilterBar');
+      issuers.forEach(issuer => {
+        const btn = document.createElement('button');
+        btn.className = 'cert-filter-btn';
+        btn.dataset.filter = issuer;
+        btn.textContent = issuer;
+        filterBar.appendChild(btn);
+      });
+
+      // Render cert cards
+      function renderCerts(filter = 'all') {
+        const grid = document.getElementById('certGridVisual');
+        const filtered = filter === 'all' ? certs : certs.filter(c => c.issuer === filter);
+        grid.innerHTML = filtered.map(c => {
+          const hasImg = c.image && c.image.length > 10;
+          return `
+          <div class="cert-card-visual" data-id="${c.id}" data-issuer="${c.issuer}">
+            <div class="cert-img-wrap" onclick="openLightbox('${c.id}')">
+              ${hasImg
+                ? `<img src="${c.image}" alt="${c.title}" class="cert-thumb">`
+                : `<div class="cert-img-placeholder">
+                    <i class="fas fa-certificate"></i>
+                    <span>${c.badge}</span>
+                   </div>`}
+              <div class="cert-img-overlay">
+                <i class="fas fa-search-plus"></i> View
+              </div>
+            </div>
+            <div class="cert-body">
+              <div class="cert-badge-pill">${c.badge}</div>
+              <h4 class="cert-title-visual">${c.title}</h4>
+              <div class="cert-meta">
+                <span class="cert-issuer-visual"><i class="fas fa-building"></i> ${c.issuer}</span>
+                <span class="cert-date-visual"><i class="far fa-calendar"></i> ${c.date}</span>
+              </div>
+              <div class="cert-actions">
+                <button class="btn-view-cert" onclick="openLightbox('${c.id}')">
+                  <i class="fas fa-eye"></i> View Certificate
+                </button>
+                ${c.link ? `<a href="${c.link}" target="_blank" class="btn-ext-cert">
+                  <i class="fas fa-external-link-alt"></i>
+                </a>` : ''}
+              </div>
+            </div>
+          </div>`;
+        }).join('');
+      }
+
+      renderCerts();
+
+      // Filter clicks
+      document.getElementById('certFilterBar').addEventListener('click', e => {
+        if (!e.target.classList.contains('cert-filter-btn')) return;
+        document.querySelectorAll('.cert-filter-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        renderCerts(e.target.dataset.filter);
+      });
+
+      // Lightbox
+      window.openLightbox = function(id) {
+        const cert = certs.find(c => c.id === id);
+        if (!cert) return;
+        const lb = document.getElementById('certLightbox');
+        const img = document.getElementById('lightboxImg');
+        const hasImg = cert.image && cert.image.length > 10;
+        img.src = hasImg ? cert.image : '';
+        img.style.display = hasImg ? 'block' : 'none';
+        document.getElementById('lightboxTitle').textContent = cert.title;
+        document.getElementById('lightboxIssuer').textContent = cert.issuer + ' · ' + cert.date;
+        const lnk = document.getElementById('lightboxLink');
+        if (cert.link) { lnk.href = cert.link; lnk.style.display = 'inline-flex'; }
+        else { lnk.style.display = 'none'; }
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      };
+
+      document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+      document.getElementById('certLightbox').addEventListener('click', e => {
+        if (e.target === document.getElementById('certLightbox')) closeLightbox();
+      });
+      function closeLightbox() {
+        document.getElementById('certLightbox').classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      // Theme
+      const saved = localStorage.getItem('theme');
+      if (saved === 'light') document.body.classList.add('light-mode');
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
+        document.getElementById('themeToggle').innerHTML = document.body.classList.contains('light-mode')
+          ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+      });
+
+      // Scroll-top
+      const scrollTop = document.getElementById('scrollTop');
+      window.addEventListener('scroll', () => {
+        scrollTop.classList.toggle('visible', window.scrollY > 300);
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+      });
+      scrollTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    });
+  </script>
+</body>
+</html>

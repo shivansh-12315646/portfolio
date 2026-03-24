@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | Shivansh Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body class="no-splash admin-body">
+
+  <div class="admin-login-bg">
+    <div class="admin-login-particles"></div>
+  </div>
+
+  <div class="admin-login-wrap">
+    <div class="admin-login-card">
+      <div class="admin-login-logo">
+        <div class="admin-logo-ring">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h1>Admin Panel</h1>
+        <p>Sign in to manage your portfolio</p>
+      </div>
+
+      <form class="admin-login-form" id="loginForm" autocomplete="off">
+        <div class="admin-field">
+          <label for="adminUser"><i class="fas fa-user"></i> Username</label>
+          <input type="text" id="adminUser" placeholder="Enter username" autocomplete="off" required>
+        </div>
+        <div class="admin-field">
+          <label for="adminPass"><i class="fas fa-lock"></i> Password</label>
+          <div class="pass-input-wrap">
+            <input type="password" id="adminPass" placeholder="Enter password" required>
+            <button type="button" class="pass-toggle" id="passToggle">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-error" id="loginError" style="display:none;">
+          <i class="fas fa-exclamation-circle"></i> <span id="loginErrorMsg">Invalid credentials. Try again.</span>
+        </div>
+
+        <button type="submit" class="btn-admin-login" id="loginBtn">
+          <span>Sign In</span> <i class="fas fa-arrow-right"></i>
+        </button>
+      </form>
+
+      <div class="admin-login-footer">
+        <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Portfolio</a>
+        <span class="admin-hint">Default: admin / admin123</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="./data.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check if already logged in
+      if (sessionStorage.getItem('admin_logged_in') === 'true') {
+        window.location.href = 'admin-dashboard.html';
+        return;
+      }
+
+      // Theme
+      if (localStorage.getItem('theme') === 'light') document.body.classList.add('light-mode');
+
+      // Password toggle
+      document.getElementById('passToggle').addEventListener('click', () => {
+        const inp = document.getElementById('adminPass');
+        const icon = document.querySelector('#passToggle i');
+        inp.type = inp.type === 'password' ? 'text' : 'password';
+        icon.classList.toggle('fa-eye');
+        icon.classList.toggle('fa-eye-slash');
+      });
+
+      // Login
+      document.getElementById('loginForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const adminData = getPortfolioData('admin');
+        const user = document.getElementById('adminUser').value.trim();
+        const pass = document.getElementById('adminPass').value;
+        const btn = document.getElementById('loginBtn');
+        const errEl = document.getElementById('loginError');
+
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+        btn.disabled = true;
+
+        setTimeout(() => {
+          if (user === adminData.username && pass === adminData.password) {
+            sessionStorage.setItem('admin_logged_in', 'true');
+            btn.innerHTML = '<i class="fas fa-check"></i> Success!';
+            btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
+            setTimeout(() => { window.location.href = 'admin-dashboard.html'; }, 600);
+          } else {
+            errEl.style.display = 'flex';
+            btn.innerHTML = '<span>Sign In</span> <i class="fas fa-arrow-right"></i>';
+            btn.disabled = false;
+            document.getElementById('adminPass').value = '';
+            document.getElementById('adminPass').focus();
+          }
+        }, 800);
+      });
+    });
+  </script>
+</body>
+</html>

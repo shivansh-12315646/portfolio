@@ -1,0 +1,16 @@
+# VS Code settings
+.vscode/
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# OS-specific files
+Thumbs.db
+.DS_Store
+
+# Local dashboard/admin state (if any)
+admin-dashboard.html
+data.js
