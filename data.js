@@ -176,7 +176,7 @@ const PORTFOLIO_DEFAULTS = {
       issuer: "Udemy",
       date: "Aug 2025",
       badge: "AI",
-      image: "",
+      image: "./images/cert_gen_ai.pdf",
       link: ""
     },
     {
@@ -185,7 +185,7 @@ const PORTFOLIO_DEFAULTS = {
       issuer: "Infosys",
       date: "Aug 2025",
       badge: "CS",
-      image: "",
+      image: "./images/cert_theory.pdf",
       link: ""
     },
     {
@@ -194,7 +194,7 @@ const PORTFOLIO_DEFAULTS = {
       issuer: "Coursera",
       date: "Sep 2024",
       badge: "NET",
-      image: "",
+      image: "./images/cert_network_fund.pdf",
       link: ""
     },
     {
@@ -203,7 +203,7 @@ const PORTFOLIO_DEFAULTS = {
       issuer: "Coursera (Google)",
       date: "Sep 2024",
       badge: "NET",
-      image: "",
+      image: "./images/cert_networking_bits.pdf",
       link: ""
     },
     {
@@ -212,7 +212,7 @@ const PORTFOLIO_DEFAULTS = {
       issuer: "Coursera",
       date: "Sep 2024",
       badge: "NET",
-      image: "",
+      image: "./images/cert_packet_switching.pdf",
       link: ""
     },
     {
@@ -221,7 +221,16 @@ const PORTFOLIO_DEFAULTS = {
       issuer: "Coursera",
       date: "Sep 2024",
       badge: "NET",
-      image: "",
+      image: "./images/cert_tcp_ip.pdf",
+      link: ""
+    },
+    {
+      id: "cert10",
+      title: "Peer-to-Peer Protocols and Local Area Networks",
+      issuer: "Coursera",
+      date: "Sep 2024",
+      badge: "NET",
+      image: "./images/cert_p2p_protocols.pdf",
       link: ""
     },
     {
@@ -230,7 +239,7 @@ const PORTFOLIO_DEFAULTS = {
       issuer: "Neocolab",
       date: "2024",
       badge: "JAVA",
-      image: "",
+      image: "./images/cert_java_neocolab.pdf",
       link: ""
     }
   ],
